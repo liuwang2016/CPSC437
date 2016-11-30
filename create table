@@ -1,0 +1,88 @@
+CREATE TABLE Airport (
+    airport_code       varchar(10)  PRIMARY KEY,
+    name           varchar(20), 
+    city           varchar(20), 
+    state           varchar(10), 
+);
+
+
+
+CREATE TABLE Driving_distance (
+    start       varchar(10)  REFERENCES Airport (airport_code),
+    end         varchar(10)  REFERENCES Airport (airport_code), 
+    miles       real, 
+    primary key (start, end)
+);
+
+
+CREATE TABLE Route (
+    route_code       varchar(20)  PRIMARY KEY,
+    departure_airport       varchar(10)  REFERENCES Airport (airport_code),
+    arrival_airport         varchar(10)  REFERENCES Airport (airport_code), 
+    miles       real, 
+);
+
+
+CREATE TABLE Flight (
+    flight_number       varchar(20)  PRIMARY KEY,
+    airline             varchar(20),
+    standard_price      real, 
+    route_code          varchar(20) REFERENCES Route (route_code), 
+);
+
+
+
+CREATE TABLE Schedule (
+    flight_number       varchar(20),
+    date                date,
+    seat_sold           int, 
+    aircraft_id          varchar(20) REFERENCES Aircraft (registration_number), 
+    primary key (flight_number, date)
+);
+
+
+CREATE TABLE Time (
+    time_id             int  PRIMARY KEY,
+    departure_time      time,
+    arrival_time        time, 
+);
+
+
+CREATE TABLE Aircraft (
+    registration_number       varchar(20)  PRIMARY KEY,
+    model                varchar(10),
+    number_of_seats           int, 
+    manufacturer          varchar(20), 
+);
+
+
+CREATE TABLE Client (
+    client_id       varchar(10)  PRIMARY KEY,
+    name                varchar(20),
+    date_of_birth           date, 
+);
+
+
+CREATE TABLE Bidding (
+    client_id       varchar(10) REFERENCES Client (client_id),
+    bidding           int,
+    willing           int, 
+    primary key (client_id, bidding, willing)
+);
+
+
+CREATE TABLE Contact (
+    client_id       varchar(10) REFERENCES Client (client_id),
+    phone           varchar(20),
+    email           varchar(30), 
+    street_number      int,
+    street_name        varchar(20),
+    apt_number         int,
+    city               varchar(20),
+    state              varchar(10),
+    zip                int,
+    primary key (client_id, street_number, street_name, apt_number, city, state)
+);
+
+
+
